@@ -1,0 +1,56 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}
+            My Title
+        {% endblock title %}
+    </title>
+    <link href="{% static 'main.css' %}" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div id="wrapper">
+    <header id="header">
+        <img src="{% static 'logo.jpg' %}" height="50"/>
+
+        <span style="float : right;">
+            {% if user.is_authenticated %}
+                {{ user.username }}
+                <form method="post" action="{% url 'logout' %}?next=/">
+                    {% csrf_token %}
+                    <button type ="submit">logout</button>
+                </form>
+            {% else %}
+                Not Logged In.
+                <a href="{%url 'login' %}?next=/home">Login</a>
+            {% endif %}
+        </span>
+
+        <img src="{% static 'banner.jpg' %}" width="600" height="150"/>
+    </header>
+    <aside id="leftsidebar">
+        <nav id="nav">
+            <ul>
+                 {% block sidenav %}
+                 <li> Menu 1 </li>
+                 <li> Menu 2 </li>
+                 {% endblock sidenav %}
+            </ul>
+        </nav>
+    </aside>
+
+    <section id="main">
+        {% block content %}
+        <h1>This is our Book Exchange System</h1>
+        {% endblock content%}
+    </section>
+    <footer id="footer">
+        2024 Spring Section 1 Project
+    </footer>
+</div>
+
+</body>
+</html>
